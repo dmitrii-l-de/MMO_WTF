@@ -1,0 +1,12 @@
+{% extends 'default.html' %}
+
+{% block content %}
+<h1>Create News</h1>
+<hr>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Выводим каждое поле формы в отдельном параграфе -->
+    {{ form.as_p }}
+    <button type="submit">Загрузка</button>
+</form>
+{% endblock content %}

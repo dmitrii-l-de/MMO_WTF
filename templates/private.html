@@ -1,0 +1,105 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{% endblock title %}
+
+{% block content %}
+
+<h3>Приватная страница пользователя {{request.user.username}}</h3>
+
+<h2>Мои объявления</h2>
+
+{% if fb %}
+       <table class="table table-condensed">
+      <thead class="table-dark">
+        <tr class="table-dark">
+           <tr>
+               <td>Заголовок</td>
+               <td></td>
+               <td>Дата публикации</td>
+               <td></td>
+               <td>Категория</td>
+               <td></td>
+               <td>Содержание</td>
+            <td></td>
+               <td>Изображение</td>
+            </thead>
+           </tr>
+            {% for pub in fb %}
+           </form>
+           {% if user.id == pub.pub_author_id %}
+
+           <tr>
+               <td><!-- Здесь делаем заголовок кликабельным -->
+                <a class="nav-link" href="{% url 'detail' pub.pk %}">{{ pub.pub_title }}</a>
+                </td>
+               <td></td>
+
+               <td>{{ pub.pub_date | date:'d M Y' }}</td>
+               <td></td>
+
+               <td>
+                   {% for el in pub.category.all %}
+                    {% csrf_token %}
+                     {{el}}
+                   {% endfor %}
+               </td>
+               <td></td>
+               <td>{{ pub.pub_text|safe }}</td>
+               <td></td>
+               <td>
+                        <img src="{{ pub.pub_content.url }}" width="150px">
+                        <!-- Выводим размер картинки -->
+                        <p>Оригинальный размер   {{ pub.pub_content.width }}x{{ pub.pub_content.height }}</p>
+               </td>
+                <p></p>
+                {% if user.id == pub.pub_author_id %}
+                   <button type="button" class="btn btn-dark">
+               <a class="nav-link" href="{% url 'update' pub.pk %}">
+                         Редактировать публикацию с ID: {{ pub.pk }} </a>
+               </button>
+
+                   <button type="button" class="btn btn-dark">
+               <a class="nav-link" href="{% url 'delete' pub.pk %}">
+                         Удалить публикацию с ID: {{ pub.pk }}</a>
+               </button>
+               {% endif %}
+               <hr>
+
+<!--               {% for el in feedback %}-->
+<!--                  {% if el.reaction_to_pub_id == pub.id %}-->
+<!--                   <p><span>От пользователя ({{el.reaction_user}}):-->
+<!--                       {{ el.reaction_text }} </span><br>Статус:  {{ el.reaction_status}}-->
+<!--                       <p></p>-->
+<!--                   {% if user.id == el.reaction_user_id %}-->
+<!--                    <a href="{% url 'feedback_delete' el.pk %}">-->
+<!--                         <button style="height:30px;width:200px">Удалить отклик с ID: {{ el.pk }}</button>-->
+<!--                        </a>-->
+<!--                   {% endif %}</p>-->
+<!--                    {% if user.id != el.reaction_user_id %}-->
+<!--                   <form method="POST" action="change_status">-->
+<!--                      {% csrf_token %}-->
+<!--                          <input type="hidden" name="change_status" value="ПР">-->
+<!--                            <input type="hidden" name="reaction_id" value="{{item.pk}}">-->
+<!--                          <button style="height:30px;width:200px" type="submit " > Принять отклик ID: {{ el.pk }} </button>-->
+<!--                          <p></p>-->
+<!--                 </form>-->
+<!--                   <form method="POST" action="change_status">-->
+<!--                      {% csrf_token %}-->
+<!--                          <input type="hidden" name="change_status" value="ОТ">-->
+<!--                              <input type="hidden" name="reaction_id" value="{{el.pk}}">-->
+<!--                          <button style="height:30px;width:200px" type="submit " > Отклонить отклик ID: {{ el.pk }} </button>-->
+<!--                          <hr>-->
+<!--                 </form>-->
+<!--                   {% endif %}-->
+
+<!--                   {% endif %}-->
+<!--                   {% endfor %}-->
+
+                   {% endif %}
+               </td>
+           </tr>
+            {% endfor %}
+{% endif %}
+               </table>
+{% endblock content %}

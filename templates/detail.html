@@ -1,0 +1,69 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+
+
+<h1>Дата публикации: {{ add.pub_date | date:'d M Y' }}</h1>
+    <hr>
+       {% if add %}
+
+    <table class="table table-condensed">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Заголовок</th>
+            <td></td>
+            <td></td>
+            <td></td>
+          <th scope="col">Содержание</th>
+            <td></td>
+            <td></td>
+            <td></td>
+          <th scope="col">Изображение</th>
+            <td></td>
+        </tr>
+        </thead>
+       <tr>
+           <td>{{ add.pub_title }}</td>
+           <td></td>
+           <td></td>
+           <td></td>
+           <td>{{ add.pub_text }}</td>
+           <td></td>
+           <td></td>
+           <td></td>
+           <td>
+            <img src="{{ add.pub_content.url }}" width="150px">
+            <!-- Выводим размер картинки -->
+            <p>Оригинальный размер   {{ add.pub_content.width }}x{{ add.pub_content.height }}</p>
+               </td>
+           <td></td>
+       </tr>
+
+       </table>
+
+                    <form>
+                   {% for cat in add.category.all %}
+                       Категория: {{cat}}
+                   {% endfor %}
+                    </form>
+            <hr>
+
+
+
+                <button type="button" class="btn btn-dark">
+               <a class="nav-link" href="send_feedback">Написать отзыв</a>
+               </button>
+                <button type="button" class="btn btn-dark">
+               <a class="nav-link" href="update/">Изменить</a>
+               </button>
+                <button type="button" class="btn btn-dark">
+               <a class="nav-link" href="delete/">Удалить</a>
+               </button>
+
+
+   {% endif %}
+{% endblock content %}

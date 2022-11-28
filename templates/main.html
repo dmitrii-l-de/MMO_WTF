@@ -1,0 +1,63 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Все новости:
+{% endblock title %}
+
+{% block content %}
+   <h1> Все новости!!!</h1>
+   <hr>
+
+   {% if add %}
+       <table class="table table-condensed">
+      <thead class="table-dark">
+        <tr class="table-dark">
+           <tr>
+               <td>Заголовок</td>
+               <td></td>
+               <td>Дата публикации</td>
+               <td></td>
+               <td>Категория</td>
+               <td></td>
+               <td>Содержание</td>
+            <td></td>
+               <td>Изображение</td>
+            </thead>
+           </tr>
+
+           {% for pub in add %}
+         </form>
+
+           <tr>
+               <td><!-- Здесь делаем заголовок кликабельным -->
+                <a class="nav-link" href="{% url 'detail' pub.pk %}">{{ pub.pub_title }}</a>
+                </td>
+               <td></td>
+               <td>{{ pub.pub_date | date:'d M Y' }}</td>
+               <td></td>
+
+               <td>
+                   {% for el in pub.category.all %}
+                    {% csrf_token %}
+                     {{el}}
+                   {% endfor %}
+               </td>
+               <td></td>
+               <td>{{ pub.pub_text|safe }}</td>
+               <td></td>
+               <td>
+                        <img src="{{ pub.pub_content.url }}" width="150px">
+                        <!-- Выводим размер картинки -->
+                        <p>Оригинальный размер   {{ pub.pub_content.width }}x{{ pub.pub_content.height }}</p>
+               </td>
+
+               </td>
+           </tr>
+           {% endfor %}
+       </table>
+
+   {% else %}
+       <h2>Статей и новостей нет!</h2>
+   {% endif %}
+
+{% endblock content %}
